@@ -22,6 +22,8 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({ options, onSelect }) => {
     resetDropdown,
   } = useAutocomplete(options);
 
+  const isDropdownOpen = isOpen && !!filteredOptions.length;
+
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     setInputValue(value);
@@ -43,7 +45,7 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({ options, onSelect }) => {
 
   return (
     <div
-      className={`auto-complete ${isOpen ? "auto-complete--open" : ""}`}
+      className={`auto-complete ${isDropdownOpen ? "auto-complete--open" : ""}`}
       ref={dropdownRef}
     >
       <input
@@ -56,7 +58,7 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({ options, onSelect }) => {
         aria-expanded={isOpen}
         role="combobox"
       />
-      {isOpen && (
+      {isDropdownOpen && (
         <ul className="options" role="listbox">
           {filteredOptions.map((option, index) => (
             <AutoCompleteOption

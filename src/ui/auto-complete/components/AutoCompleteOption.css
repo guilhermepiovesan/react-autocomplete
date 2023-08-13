@@ -12,3 +12,14 @@
   background-color: #333;
   font-weight: bold;
 }
+
+@media (prefers-color-scheme: light) {
+  .auto-complete-option[aria-selected="true"],
+  .auto-complete-option:hover {
+    background-color: #ddd;
+  }
+
+  .auto-complete-option .highlight {
+    background-color: #ccc;
+  }
+}
