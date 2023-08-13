@@ -40,7 +40,8 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({ options, onSelect }) => {
 
   const { handleKeyDown, focusedOptionIndex } = useKeyboardNavigation(
     filteredOptions,
-    handleOptionSelect
+    handleOptionSelect,
+    resetDropdown
   );
 
   return (

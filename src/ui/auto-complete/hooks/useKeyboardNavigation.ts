@@ -3,7 +3,8 @@ import { Option } from "../types";
 
 export function useKeyboardNavigation(
   filteredOptions: Option[],
-  handleOptionSelect: (option: Option) => void
+  handleOptionSelect: (option: Option) => void,
+  resetDropdown: () => void
 ) {
   const [focusedOptionIndex, setFocusedOptionIndex] = useState<number | null>(
     null
@@ -30,6 +31,7 @@ export function useKeyboardNavigation(
         break;
       case "Escape":
         setFocusedOptionIndex(null);
+        resetDropdown();
         break;
       default:
         break;
