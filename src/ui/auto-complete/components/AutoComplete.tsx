@@ -1,5 +1,5 @@
 import "./AutoComplete.css";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import type { Option } from "../types";
 import AutoCompleteOption from "./AutoCompleteOption";
 
@@ -15,6 +15,7 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({ options, onSelect }) => {
   const [focusedOptionIndex, setFocusedOptionIndex] = useState<number | null>(
     null
   );
+  const dropdownRef = useRef<HTMLDivElement | null>(null);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
@@ -75,8 +76,31 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({ options, onSelect }) => {
     }
   };
 
+  const handleClickOutside = (event: MouseEvent) => {
+    if (
+      dropdownRef.current &&
+      event.target instanceof Node &&
+      !dropdownRef.current.contains(event.target)
+    ) {
+      setIsOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpen]);
+
   return (
-    <div className={`auto-complete ${isOpen ? "auto-complete--open" : ""}`}>
+    <div
+      className={`auto-complete ${isOpen ? "auto-complete--open" : ""}`}
+      ref={dropdownRef}
+    >
       <input
         type="text"
         value={inputValue}
