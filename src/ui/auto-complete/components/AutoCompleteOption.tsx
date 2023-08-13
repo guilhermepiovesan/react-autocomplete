@@ -1,7 +1,7 @@
 import "./AutoCompleteOption.css";
 import React from "react";
 import type { Option } from "../types";
-import { decomposeLabel } from "../helpers/label";
+import { decomposeLabel } from "../helpers/strings";
 
 interface AutoCompleteOptionProps {
   option: Option;

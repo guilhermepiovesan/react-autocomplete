@@ -2,6 +2,9 @@ import "./AutoComplete.css";
 import React, { useEffect, useRef, useState } from "react";
 import type { Option } from "../types";
 import AutoCompleteOption from "./AutoCompleteOption";
+import { useOutsideClick } from "../hooks/useOutsideClick";
+import { useKeyboardNavigation } from "../hooks/useKeyboardNavigation";
+import { useAutocomplete } from "../hooks/useAutocomplete";
 
 type AutoCompleteProps = {
   options: Option[];
@@ -9,13 +12,15 @@ type AutoCompleteProps = {
 };
 
 const AutoComplete: React.FC<AutoCompleteProps> = ({ options, onSelect }) => {
-  const [inputValue, setInputValue] = useState("");
-  const [filteredOptions, setFilteredOptions] = useState<Option[]>([]);
-  const [isOpen, setIsOpen] = useState(false);
-  const [focusedOptionIndex, setFocusedOptionIndex] = useState<number | null>(
-    null
-  );
   const dropdownRef = useRef<HTMLDivElement | null>(null);
+  const {
+    inputValue,
+    setInputValue,
+    filteredOptions,
+    isOpen,
+    filterOptions,
+    resetDropdown,
+  } = useAutocomplete(options);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
@@ -25,76 +30,16 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({ options, onSelect }) => {
 
   const handleOptionSelect = (option: Option) => {
     setInputValue(option.label);
-    setFilteredOptions([]);
-    setIsOpen(false);
+    resetDropdown();
     onSelect(option);
   };
 
-  const filterOptions = async (value: string) => {
-    // Simulating an asynchronous filtering function
-    const filtered = await new Promise<Option[]>((resolve) => {
-      setTimeout(() => {
-        const lowerCaseValue = value.toLowerCase();
-        const filteredOptions = options.filter(
-          (option) =>
-            option.label.toLowerCase().includes(lowerCaseValue) ||
-            option.value.toLowerCase().includes(lowerCaseValue)
-        );
-        resolve(filteredOptions);
-      }, 500);
-    });
+  useOutsideClick(dropdownRef, () => resetDropdown());
 
-    setFilteredOptions(filtered);
-    setIsOpen(true);
-  };
-
-  const handleKeyDown = (event: React.KeyboardEvent) => {
-    switch (event.key) {
-      case "ArrowDown":
-        event.preventDefault();
-        setFocusedOptionIndex((prev) =>
-          prev === null || prev === filteredOptions.length - 1 ? 0 : prev + 1
-        );
-        break;
-      case "ArrowUp":
-        event.preventDefault();
-        setFocusedOptionIndex((prev) =>
-          prev === null || prev === 0 ? filteredOptions.length - 1 : prev - 1
-        );
-        break;
-      case "Enter":
-        if (focusedOptionIndex !== null) {
-          handleOptionSelect(filteredOptions[focusedOptionIndex]);
-        }
-        break;
-      case "Escape":
-        setIsOpen(false);
-        setFocusedOptionIndex(null);
-        break;
-      default:
-        break;
-    }
-  };
-
-  const handleClickOutside = (event: MouseEvent) => {
-    if (
-      dropdownRef.current &&
-      event.target instanceof Node &&
-      !dropdownRef.current.contains(event.target)
-    ) {
-      setIsOpen(false);
-    }
-  };
-
-  useEffect(() => {
-    if (isOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [isOpen]);
+  const { handleKeyDown, focusedOptionIndex } = useKeyboardNavigation(
+    filteredOptions,
+    handleOptionSelect
+  );
 
   return (
     <div
