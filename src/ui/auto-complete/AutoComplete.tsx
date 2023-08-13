@@ -1,3 +1,4 @@
+import "./AutoComplete.css";
 import React, { useState } from "react";
 import type { Option } from "./types";
 import AutoCompleteOption from "./AutoCompleteOption";
@@ -44,7 +45,7 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({ options, onSelect }) => {
   };
 
   return (
-    <div className="auto-complete">
+    <div className={`auto-complete ${isOpen ? "auto-complete--open" : ""}`}>
       <input
         type="text"
         value={inputValue}

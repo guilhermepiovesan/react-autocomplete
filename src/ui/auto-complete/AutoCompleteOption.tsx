@@ -1,3 +1,4 @@
+import "./AutoCompleteOption.css";
 import React from "react";
 import type { Option } from "./types";
 
@@ -15,7 +16,7 @@ const AutoCompleteOption: React.FC<AutoCompleteOptionProps> = ({
   };
 
   return (
-    <li className="option" onClick={handleOptionSelect}>
+    <li className="auto-complete-option" onClick={handleOptionSelect}>
       {option.label}
     </li>
   );
