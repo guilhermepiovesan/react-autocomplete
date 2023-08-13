@@ -9,15 +9,38 @@ type AutoCompleteProps = {
 
 const AutoComplete: React.FC<AutoCompleteProps> = ({ options, onSelect }) => {
   const [inputValue, setInputValue] = useState("");
+  const [filteredOptions, setFilteredOptions] = useState<Option[]>([]);
+  const [isOpen, setIsOpen] = useState(false);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     setInputValue(value);
+    filterOptions(value);
   };
 
   const handleOptionSelect = (option: Option) => {
     setInputValue(option.label);
+    setFilteredOptions([]);
+    setIsOpen(false);
     onSelect(option);
+  };
+
+  const filterOptions = async (value: string) => {
+    // Simulating an asynchronous filtering function
+    const filtered = await new Promise<Option[]>((resolve) => {
+      setTimeout(() => {
+        const lowerCaseValue = value.toLowerCase();
+        const filteredOptions = options.filter(
+          (option) =>
+            option.label.toLowerCase().includes(lowerCaseValue) ||
+            option.value.toLowerCase().includes(lowerCaseValue)
+        );
+        resolve(filteredOptions);
+      }, 500);
+    });
+
+    setFilteredOptions(filtered);
+    setIsOpen(true);
   };
 
   return (
@@ -28,9 +51,9 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({ options, onSelect }) => {
         onChange={handleInputChange}
         placeholder="Type to search..."
       />
-      {inputValue && (
+      {isOpen && (
         <ul className="options">
-          {options.map((option) => (
+          {filteredOptions.map((option) => (
             <AutoCompleteOption
               key={option.value}
               option={option}
