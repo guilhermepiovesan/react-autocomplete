@@ -23,7 +23,7 @@ This is a simple auto-complete component implemented in React with TypeScript.
    pnpm dev
    ```
 
-4. Open your browser and navigate to `http://localhost:5173` to see the auto-complete component in action.
+4. Open your browser and navigate to `http://localhost:5173/react-autocomplete/` to see the auto-complete component in action.
 
 ## Usage
 
