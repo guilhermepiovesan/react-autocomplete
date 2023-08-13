@@ -3,6 +3,7 @@
   cursor: pointer;
 }
 
+.auto-complete-option[aria-selected="true"],
 .auto-complete-option:hover {
   background-color: #333;
 }

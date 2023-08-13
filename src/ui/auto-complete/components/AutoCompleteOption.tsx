@@ -7,12 +7,14 @@ interface AutoCompleteOptionProps {
   option: Option;
   onSelect: (option: Option) => void;
   filterValue: string;
+  isFocused: boolean;
 }
 
 const AutoCompleteOption: React.FC<AutoCompleteOptionProps> = ({
   option,
   onSelect,
   filterValue,
+  isFocused,
 }) => {
   const [prefix, match, suffix] = decomposeLabel(option.label, filterValue);
 
@@ -21,7 +23,12 @@ const AutoCompleteOption: React.FC<AutoCompleteOptionProps> = ({
   };
 
   return (
-    <li className="auto-complete-option" onClick={handleOptionSelect}>
+    <li
+      className="auto-complete-option"
+      onClick={handleOptionSelect}
+      role="option"
+      aria-selected={isFocused}
+    >
       {prefix}
       <span className="highlight">{match}</span>
       {suffix}
