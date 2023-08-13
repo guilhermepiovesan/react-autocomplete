@@ -1,5 +1,5 @@
 import "./AutoComplete.css";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef } from "react";
 import type { Option } from "../types";
 import AutoCompleteOption from "./AutoCompleteOption";
 import { useOutsideClick } from "../hooks/useOutsideClick";
