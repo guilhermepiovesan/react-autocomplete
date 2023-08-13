@@ -1,6 +1,6 @@
 import "./AutoComplete.css";
 import React, { useState } from "react";
-import type { Option } from "./types";
+import type { Option } from "../types";
 import AutoCompleteOption from "./AutoCompleteOption";
 
 type AutoCompleteProps = {
@@ -58,6 +58,7 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({ options, onSelect }) => {
             <AutoCompleteOption
               key={option.value}
               option={option}
+              filterValue={inputValue}
               onSelect={() => handleOptionSelect(option)}
             />
           ))}

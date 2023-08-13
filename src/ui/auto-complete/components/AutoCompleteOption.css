@@ -6,3 +6,8 @@
 .auto-complete-option:hover {
   background-color: #333;
 }
+
+.auto-complete-option .highlight {
+  background-color: #333;
+  font-weight: bold;
+}
