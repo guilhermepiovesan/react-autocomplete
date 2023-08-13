@@ -1,9 +1,6 @@
 import React, { useState } from "react";
-
-export type Option = {
-  label: string;
-  value: string;
-};
+import type { Option } from "./types";
+import AutoCompleteOption from "./AutoCompleteOption";
 
 type AutoCompleteProps = {
   options: Option[];
@@ -34,9 +31,11 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({ options, onSelect }) => {
       {inputValue && (
         <ul className="options">
           {options.map((option) => (
-            <li key={option.value} onClick={() => handleOptionSelect(option)}>
-              {option.label}
-            </li>
+            <AutoCompleteOption
+              key={option.value}
+              option={option}
+              onSelect={() => handleOptionSelect(option)}
+            />
           ))}
         </ul>
       )}

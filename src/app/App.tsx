@@ -1,6 +1,6 @@
 import "./App.css";
 import { data as options } from "./mock";
-import AutoComplete, { type Option } from "../ui/auto-complete/Autocomplete";
+import { AutoComplete, type Option } from "../ui/auto-complete";
 
 function App() {
   const handleSelect = (option: Option) => {
