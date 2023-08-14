@@ -1,6 +1,6 @@
 import "./App.css";
 import ClubSelector from "../clubs/components/ClubSelector";
-import CountrySelector from "../clubs/components/CountrySelector";
+import CountrySelector from "../countries/components/CountrySelector";
 
 function App() {
   return (
